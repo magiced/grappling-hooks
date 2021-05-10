@@ -75,8 +75,6 @@ module arm()
         linear_extrude(height=thk_hook,center=true)
             {
                 polygon(grap_points);
-                translate([0,l_shaft-w_shaft,0])
-                    pieSlice(w_shaft,0,90);
             }
      translate([0,-w_reinforcer/2,0])
                 cube([w_head,w_reinforcer,thk_reinforcer]);
