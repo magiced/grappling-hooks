@@ -39,7 +39,7 @@ module trapezoid (w_b, w_t, h, l, centre = false)
 w_shaft = 5;
 l_shaft = 50;
 w_head = 10;
-h_head = 7;
+h_head = 9;
 w_arm = 30;
 h_arm = 20;
 w_arm_end = 5;
@@ -48,22 +48,25 @@ point_height = 10;
 w_point = w_arm + point_width;
 h_point = h_arm + point_height;
 w_reinforcer = 6;
-thk_reinforcer = 1;
+thk_reinforcer = 2;
 thk_hook = 2;
 num_hooks = 3;
 
-hole_dia = 5.5;
+hole_dia = 6;
 
 grap_points = 
 [
 [0,0],
-[w_head,0],
-[w_arm,h_arm],
-[w_point,h_point],
-[w_arm-w_arm_end,h_arm],
-[w_shaft,h_head],
-[w_shaft,l_shaft-w_shaft],
-[0,l_shaft],
+[w_head,            0],
+[w_arm,             h_arm],
+[w_point,           h_point],
+[w_arm-w_arm_end,   h_arm],
+[w_shaft * 1.4,           h_head],
+[w_shaft * 1.2,           h_head * 1.3],
+[w_shaft,           l_shaft-w_shaft],
+[(0.9)*w_shaft,     l_shaft-(0.6)*w_shaft],
+[(0.5)*w_shaft,     l_shaft-(0.15)*w_shaft],
+[0,l_shaft], 
 [0,0]
 ];
 
