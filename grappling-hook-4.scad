@@ -37,12 +37,12 @@ module trapezoid (w_b, w_t, h, l, centre = false)
 
 
 w_shaft = 5;
-l_shaft = 50;
+l_shaft = 60;
 w_head = 10;
 h_head = 9;
-w_arm = 30;
+w_arm = 25;
 h_arm = 20;
-w_arm_end = 5;
+w_arm_end = 6;
 point_width = 2;
 point_height = 10;
 w_point = w_arm + point_width;
@@ -74,33 +74,35 @@ module arm()
 {
     union()
     {
+        // hook profile
     rotate([90,0,0])
         linear_extrude(height=thk_hook,center=true)
             {
                 polygon(grap_points);
             }
+     // bottom reinforcer       
      translate([0,-w_reinforcer/2,0])
                 cube([w_head,w_reinforcer,thk_reinforcer]);
-            
-      l_arm_flange = sqrt ( pow(h_arm, 2) + pow(w_arm-w_head, 2));
-            
+      
+      // calc arm flange angles      
+      l_arm_flange = sqrt ( pow(h_arm, 2) + pow(w_arm-w_head, 2));      
       arm_flange_angle = atan( (w_arm-w_head)/h_arm );
-            
+      
+      // arm flange      
       translate([w_head,-w_reinforcer/2,0])
         rotate([0,-arm_flange_angle,0])
             cube([l_arm_flange,w_reinforcer,thk_reinforcer]);
-            
-      //l_arm_flange = sqrt ( pow(h_arm, 2) + pow(w_arm-w_head, 2));
       
+      // calc tip flange angles and dims      
       w_point = w_arm + point_width;
       h_point = h_arm + point_height;
       arm_point_angle = atan( (point_height)/point_width );
-            
-            rotate([0,0,-90])
-             translate([-w_reinforcer/2,w_arm,h_arm])           
-      rotate([arm_point_angle,0,0])
-        
-            trapezoid(w_reinforcer,thk_hook,point_height,thk_reinforcer,0);      
+     
+     // tip flange       
+     rotate([0,0,-90])
+        translate([-w_reinforcer/2,w_arm,h_arm])           
+            rotate([arm_point_angle,0,0])
+                trapezoid(w_reinforcer,thk_hook,point_height,thk_reinforcer,0);      
             
       }
 }
@@ -109,23 +111,18 @@ difference()
 {
     union()
     {
-	
-rot_angle = 360/num_hooks;
-for(i = [0: rot_angle: 359])
-{
-    echo(i);
-    rotate([0,0,i])
-arm();
-}
+        // calc number of arms
+        rot_angle = 360/num_hooks;
+        for(i = [0: rot_angle: 359])
+        {
+            // make the arms
+            rotate([0,0,i])
+                arm();
+        }
 
-
-//    arm();
-//    rotate([0,0,120])
-//        arm();
-//    rotate([0,0,2*120])
-//        arm();
     }
     
+    // cut out the end hole
     translate([0,0,l_shaft-w_shaft-2])
         sphere(d=hole_dia);
 }
